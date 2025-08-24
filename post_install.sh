@@ -45,7 +45,7 @@ run_cmd "apt install -y nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree"
 
 echo "⚙️ ryzen_smu indiriliyor ve kuruluyor..."
 if [ ! -d ryzen_smu ]; then
-    run_cmd "git clone https://github.com/amkillam/ryzen_smu.git"
+    git clone https://github.com/amkillam/ryzen_smu.git
 fi
 run_cmd "cd ryzen_smu && make dkms-install && cd .."
 
@@ -56,7 +56,7 @@ sleep 1
 
 echo "⚙️ RyzenAdj indiriliyor ve derleniyor..."
 if [ ! -d RyzenAdj ]; then
-    run_cmd "git clone https://github.com/FlyGoat/RyzenAdj"
+    git clone https://github.com/FlyGoat/RyzenAdj
 fi
 run_cmd "cd RyzenAdj && cmake -B build -DCMAKE_BUILD_TYPE=Release && make -C build -j$(nproc)"
 run_cmd "cp build/ryzenadj /usr/local/bin/"
@@ -64,7 +64,7 @@ run_cmd "cd .."
 
 echo "⚙️ MangoHud indiriliyor ve kuruluyor..."
 if [ ! -d MangoHud ]; then
-    run_cmd "git clone --recurse-submodules https://github.com/flightlessmango/MangoHud.git"
+    git clone --recurse-submodules https://github.com/flightlessmango/MangoHud.git
 fi
 run_cmd "cd MangoHud && ./build.sh build && ./build.sh install && cd .."
 
