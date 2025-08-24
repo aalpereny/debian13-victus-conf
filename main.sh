@@ -62,4 +62,23 @@ cd MangoHud || { echo "❌ MangoHud klasörü bulunamadı"; exit 1; }
 ./build.sh install
 cd ..
 
+echo "⚙️ [14/14] RyzenAdj systemd servisi oluşturuluyor ve etkinleştiriliyor..."
+
+cat <<EOF > /etc/systemd/system/ryzenadj.service
+[Unit]
+Description=Set Ryzen power limits using RyzenAdj
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/ryzenadj --stapm-limit=25000 --fast-limit=25000 --slow-limit=25000 --tctl-temp=70
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Servisi etkinleştir
+systemctl enable ryzenadj.service
+
 echo "✅ Tüm işlemler başarıyla tamamlandı. Yeniden başlatma yapılmayacak."
