@@ -93,46 +93,16 @@ run_cmd "chmod 0400 /etc/doas.conf && chown root:root /etc/doas.conf"
 run_step 6 "✅ [6/14] doas yapılandırması kontrol ediliyor..."
 run_cmd "doas -C /etc/doas.conf || { echo '❌ yapılandırma hatası'; exit 1; }"
 
-# 7 - sudo yerine doas sembolik linki oluşturuluyor (onay kaldırıldı)
+# 7 - sudo yerine doas sembolik linki oluşturuluyor.
 run_step 7 "🔁 [7/14] sudo yerine doas sembolik linki oluşturuluyor..."
 if [ ! -L /usr/bin/sudo ]; then
     run_cmd "mv /usr/bin/sudo /usr/bin/sudobak"
-    run_cmd "ln -s \$(which doas) /usr/bin/sudo"
+    run_cmd "ln -s $(which doas) /usr/bin/sudo"
 fi
-
-# Root işlemler bitti, normal kullanıcıya geçiş
-echo -e "\n👤 Root işlemleri tamamlandı. Script normal kullanıcı ($NORMAL_USER) olarak devam edecek."
-
-exec sudo -u "$NORMAL_USER" doas bash "$0" --continue-after-root
-
-# Normal kullanıcı kısmı
-if [[ "$1" != "--continue-after-root" ]]; then
-    echo "Bu kısmı sadece doas ile yeniden başlatılan kullanıcı çalıştırabilir."
-    exit 1
-fi
-
-# Normal kullanıcı tarafında root yetkisi gerektiren komutları doas ile çalıştır
-run_cmd() {
-    local cmd="$*"
-    doas bash -c "$cmd"
-    local status=$?
-    if [ $status -ne 0 ]; then
-        echo -e "\n❌ HATA: Komut başarısız oldu: $cmd"
-        echo "Çıkılıyor..."
-        exit $status
-    fi
-    return $status
-}
-
-run_step() {
-    local step_num=$1
-    local title="$2"
-    draw_progress "$step_num" "$title"
-}
 
 # 8 - Derleme için gerekli paketler kuruluyor
 run_step 8 "📦 [8/14] Derleme için gerekli paketler kuruluyor..."
-run_cmd "apt install -y dkms git build-essential cmake libpci-dev linux-headers-\$(uname -r)"
+run_cmd "apt install -y dkms git build-essential cmake libpci-dev linux-headers-$(uname -r)"
 
 # 9 - NVIDIA sürücüleri kuruluyor
 run_step 9 "🎮 [9/14] NVIDIA sürücüleri kuruluyor..."
@@ -146,7 +116,7 @@ fi
 run_cmd "cd ryzen_smu && make dkms-install && cd .."
 
 if [ ! -f /etc/modules-load.d/ryzen_smu.conf ]; then
-    echo -e '# Load ryzen_smu driver upon startup\nryzen_smu' | doas tee /etc/modules-load.d/ryzen_smu.conf >/dev/null
+    echo -e '# Load ryzen_smu driver upon startup\nryzen_smu' | tee /etc/modules-load.d/ryzen_smu.conf >/dev/null
 fi
 
 # 11 - RyzenAdj indiriliyor ve derleniyor
@@ -154,8 +124,8 @@ run_step 11 "⚙️ [11/14] RyzenAdj indiriliyor ve derleniyor..."
 if [ ! -d RyzenAdj ]; then
     run_cmd "git clone https://github.com/FlyGoat/RyzenAdj"
 fi
-run_cmd "cd RyzenAdj && cmake -B build -DCMAKE_BUILD_TYPE=Release && make -C build -j\$(nproc)"
-run_cmd "doas cp build/ryzenadj /usr/local/bin/"
+run_cmd "cd RyzenAdj && cmake -B build -DCMAKE_BUILD_TYPE=Release && make -C build -j$(nproc)"
+run_cmd "cp build/ryzenadj /usr/local/bin/"
 run_cmd "cd .."
 
 # 12 - MangoHud indiriliyor ve kuruluyor
@@ -163,12 +133,12 @@ run_step 12 "⚙️ [12/14] MangoHud indiriliyor ve kuruluyor..."
 if [ ! -d MangoHud ]; then
     run_cmd "git clone --recurse-submodules https://github.com/flightlessmango/MangoHud.git"
 fi
-run_cmd "cd MangoHud && ./build.sh build && doas ./build.sh install && cd .."
+run_cmd "cd MangoHud && ./build.sh build && ./build.sh install && cd .."
 
 # 13 - RyzenAdj için systemd servisi oluşturuluyor
 run_step 13 "✅ [13/14] RyzenAdj için systemd servisi oluşturuluyor..."
 if [ ! -f /etc/systemd/system/ryzenadj.service ]; then
-    doas bash -c "cat <<EOF > /etc/systemd/system/ryzenadj.service
+    bash -c "cat <<EOF > /etc/systemd/system/ryzenadj.service
 [Unit]
 Description=Set Ryzen power limits using RyzenAdj
 After=multi-user.target
@@ -181,11 +151,11 @@ RemainAfterExit=true
 [Install]
 WantedBy=multi-user.target
 EOF"
-    doas systemctl enable ryzenadj.service
+    systemctl enable ryzenadj.service
 fi
 
 clear
 echo -e "🟢 [14/14] Kurulum tamamlandı!"
 echo "[##########] 100% Tamamlandı"
 
-doas touch "$FLAG_FILE"
+touch "$FLAG_FILE"
