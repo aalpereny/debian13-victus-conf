@@ -1,9 +1,13 @@
 #!/bin/bash
-# BU KOD DIZISI CHATGPT YARDIMI ILE OLUSTURULMUSTUR!
+
+FLAG_FILE="/var/log/deb13_victus"
+
+if [ -f "$FLAG_FILE" ]; then
+    echo "🚫 Kurulum daha önce yapılmış. Script sonlandırılıyor."
+    exit 0
+fi
 
 TOTAL_STEPS=15
-DRY_RUN=false
-[ "$1" == "--dry-run" ] && DRY_RUN=true
 
 clear
 
@@ -25,12 +29,14 @@ draw_progress() {
 }
 
 run_cmd() {
-    if $DRY_RUN; then
-        echo -e "\n(Simülasyon) $*"
-        sleep 0.5
-    else
-        eval "$@"
+    eval "$@"
+    local status=$?
+    if [ $status -ne 0 ]; then
+        echo -e "\n❌ HATA: Komut başarısız oldu: $*"
+        echo "Çıkılıyor..."
+        exit $status
     fi
+    return $status
 }
 
 run_step() {
@@ -39,67 +45,96 @@ run_step() {
     draw_progress "$step_num" "$title"
 }
 
-# Başlangıç mesajı
-if $DRY_RUN; then
-    echo "🚀 [Simülasyon modu] Hiçbir değişiklik yapılmayacaktır."
-else
-    echo "🚀 Gerçek kurulum başlatılıyor..."
-fi
+echo "🚀 Gerçek kurulum başlatılıyor..."
 sleep 1
 
+# 0 - APT kaynakları güncelleniyor
 run_step 0 "📝 [0/14] APT kaynakları güncelleniyor..."
-run_cmd "true"
+# Örnek: Eğer kaynaklar zaten ayarlıysa atla
+grep -q 'contrib non-free non-free-firmware' /etc/apt/sources.list || \
+run_cmd "sed -i 's|^deb http://deb.debian.org/debian/ trixie main non-free-firmware$|deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware|' /etc/apt/sources.list"
+grep -q 'contrib non-free non-free-firmware' /etc/apt/sources.list || \
+run_cmd "sed -i 's|^deb http://security.debian.org/debian-security trixie-security main  non-free-firmware$|deb http://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware|' /etc/apt/sources.list"
 
+# 1 - Paket listesi güncelleniyor
 run_step 1 "🔄 [1/14] Paket listesi güncelleniyor..."
 run_cmd "apt update"
 
+# 2 - Sistem paketleri yükseltiliyor
 run_step 2 "⬆️ [2/14] Sistem paketleri yükseltiliyor..."
 run_cmd "apt upgrade -y"
 
+# 3 - doas paketi kuruluyor
 run_step 3 "📦 [3/14] doas paketi kuruluyor..."
-run_cmd "apt install -y doas"
+dpkg -s doas &>/dev/null || run_cmd "apt install -y doas"
 
+# 4 - /etc/doas.conf yapılandırması yapılıyor
 run_step 4 "🛠️ [4/14] /etc/doas.conf yapılandırması yapılıyor..."
-run_cmd "echo 'permit setenv {PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin} :wheel' >> /etc/doas.conf"
-run_cmd "echo 'permit setenv { XAUTHORITY LANG LC_ALL } :wheel' >> /etc/doas.conf"
+if ! grep -q 'permit setenv {PATH=' /etc/doas.conf 2>/dev/null; then
+    run_cmd "echo 'permit setenv {PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin} :wheel' >> /etc/doas.conf"
+fi
+if ! grep -q 'permit setenv { XAUTHORITY LANG LC_ALL } :wheel' /etc/doas.conf 2>/dev/null; then
+    run_cmd "echo 'permit setenv { XAUTHORITY LANG LC_ALL } :wheel' >> /etc/doas.conf"
+fi
 
+# 5 - doas.conf dosya izinleri ayarlanıyor
 run_step 5 "🔒 [5/14] doas.conf dosya izinleri ayarlanıyor..."
 run_cmd "chmod 0400 /etc/doas.conf && chown root:root /etc/doas.conf"
 
+# 6 - doas yapılandırması kontrol ediliyor
 run_step 6 "✅ [6/14] doas yapılandırması kontrol ediliyor..."
-run_cmd "doas -C /etc/doas.conf || echo '❌ yapılandırma hatası'"
+run_cmd "doas -C /etc/doas.conf || { echo '❌ yapılandırma hatası'; exit 1; }"
 
+# 7 - Kullanıcıdan onay
 run_step 7 "⏸️ [7/14] Devam etmek için kullanıcıdan onay alınıyor..."
-if ! $DRY_RUN; then
-    read -p $'\nDevam etmek için Enter tuşuna basın...'
+read -p $'\nDevam etmek için Enter tuşuna basın...'
+
+# 8 - sudo yerine doas sembolik linki oluşturuluyor
+run_step 8 "🔁 [8/14] sudo yerine doas sembolik linki oluşturuluyor..."
+if [ ! -L /usr/bin/sudo ]; then
+    run_cmd "mv /usr/bin/sudo /usr/bin/sudobak"
+    run_cmd "ln -s \$(which doas) /usr/bin/sudo"
 fi
 
-run_step 8 "🔁 [8/14] sudo yerine doas sembolik linki oluşturuluyor..."
-run_cmd "mv /usr/bin/sudo /usr/bin/sudobak && ln -s \$(which doas) /usr/bin/sudo"
-
+# 9 - Derleme için gerekli paketler kuruluyor
 run_step 9 "📦 [9/14] Derleme için gerekli paketler kuruluyor..."
 run_cmd "apt install -y dkms git build-essential cmake libpci-dev linux-headers-\$(uname -r)"
 
+# 10 - NVIDIA sürücüleri kuruluyor
 run_step 10 "🎮 [10/14] NVIDIA sürücüleri kuruluyor..."
 run_cmd "apt install -y nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree"
 
+# 11 - ryzen_smu indiriliyor ve kuruluyor
 run_step 11 "⚙️ [11/14] ryzen_smu indiriliyor ve kuruluyor..."
-run_cmd "git clone https://github.com/amkillam/ryzen_smu.git"
+if [ ! -d ryzen_smu ]; then
+    run_cmd "git clone https://github.com/amkillam/ryzen_smu.git"
+fi
 run_cmd "cd ryzen_smu && make dkms-install && cd .."
-run_cmd "echo -e '# Load ryzen_smu driver upon startup\nryzen_smu' > /etc/modules-load.d/ryzen_smu.conf"
 
+if [ ! -f /etc/modules-load.d/ryzen_smu.conf ]; then
+    echo -e '# Load ryzen_smu driver upon startup\nryzen_smu' > /etc/modules-load.d/ryzen_smu.conf
+fi
+
+# 12 - RyzenAdj indiriliyor ve derleniyor
 run_step 12 "⚙️ [12/14] RyzenAdj indiriliyor ve derleniyor..."
-run_cmd "git clone https://github.com/FlyGoat/RyzenAdj"
+if [ ! -d RyzenAdj ]; then
+    run_cmd "git clone https://github.com/FlyGoat/RyzenAdj"
+fi
 run_cmd "cd RyzenAdj && cmake -B build -DCMAKE_BUILD_TYPE=Release && make -C build -j\$(nproc)"
 run_cmd "cp build/ryzenadj /usr/local/bin/"
 run_cmd "cd .."
 
+# 13 - MangoHud indiriliyor ve kuruluyor
 run_step 13 "⚙️ [13/14] MangoHud indiriliyor ve kuruluyor..."
-run_cmd "git clone --recurse-submodules https://github.com/flightlessmango/MangoHud.git"
+if [ ! -d MangoHud ]; then
+    run_cmd "git clone --recurse-submodules https://github.com/flightlessmango/MangoHud.git"
+fi
 run_cmd "cd MangoHud && ./build.sh build && ./build.sh install && cd .."
 
+# 14 - RyzenAdj için systemd servisi oluşturuluyor
 run_step 14 "✅ [14/14] RyzenAdj için systemd servisi oluşturuluyor..."
-run_cmd "cat <<EOF > /etc/systemd/system/ryzenadj.service
+if [ ! -f /etc/systemd/system/ryzenadj.service ]; then
+    run_cmd "cat <<EOF > /etc/systemd/system/ryzenadj.service
 [Unit]
 Description=Set Ryzen power limits using RyzenAdj
 After=multi-user.target
@@ -112,7 +147,12 @@ RemainAfterExit=true
 [Install]
 WantedBy=multi-user.target
 EOF"
-run_cmd "systemctl enable ryzenadj.service"
+    run_cmd "systemctl enable ryzenadj.service"
+fi
 
-echo -e "\n✅ Kurulum tamamlandı."
-$DRY_RUN && echo "(Simülasyon modundaydınız, sistem değiştirilmedi.)"
+clear
+echo -e "🟢 [15/15] Kurulum tamamlandı!"
+echo "[##########] 100% Tamamlandı"
+
+# Kurulum tamamlandı flag dosyasını oluştur
+touch "$FLAG_FILE"
