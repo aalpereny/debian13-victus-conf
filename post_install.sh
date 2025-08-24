@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FLAG_FILE="/var/log/deb13_victus"
+FLAG_FILE=".var/log/deb13_victus"
 TOTAL_STEPS=15
 
 draw_progress() {
