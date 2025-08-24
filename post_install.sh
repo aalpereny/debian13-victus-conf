@@ -66,7 +66,7 @@ echo "⚙️ MangoHud indiriliyor ve kuruluyor..."
 if [ ! -d MangoHud ]; then
     git clone --recurse-submodules https://github.com/flightlessmango/MangoHud.git
 fi
-run_cmd "cd MangoHud && ./build.sh build && ./build.sh install && cd .."
+cd MangoHud && ./build.sh build && ./build.sh install && cd ..
 
 echo "✅ RyzenAdj için systemd servisi oluşturuluyor..."
 if [ ! -f /etc/systemd/system/ryzenadj.service ]; then
@@ -89,4 +89,4 @@ sleep 1
 
 clear
 echo -e "🟢 Kurulum tamamlandı!"
-doas touch "$FLAG_FILE"
+touch "$FLAG_FILE"
