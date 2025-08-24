@@ -41,10 +41,11 @@ echo "🎮 [10/14] NVIDIA sürücüleri kuruluyor..."
 apt install -y nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree
 
 echo "⚙️ [11/14] ryzen_smu indiriliyor ve kuruluyor..."
-git clone https://gitlab.com/leogx9r/ryzen_smu.git
+git clone https://github.com/amkillam/ryzen_smu.git
 cd ryzen_smu || { echo "❌ ryzen_smu klasörü bulunamadı"; exit 1; }
 make dkms-install
 cd ..
+echo -e "# Load ryzen_smu driver upon startup\nryzen_smu" > /etc/modules-load.d/ryzen_smu.conf
 
 echo "⚙️ [12/14] RyzenAdj indiriliyor ve derleniyor..."
 git clone https://github.com/FlyGoat/RyzenAdj
