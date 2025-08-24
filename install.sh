@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FLAG_FILE="/var/log/deb13_victus"
+FLAG_FILE=".var/log/deb13_victus"
 
 if [ -f "$FLAG_FILE" ]; then
     echo "🚫 Kurulum daha önce yapılmış."
