@@ -58,9 +58,9 @@ echo "⚙️ RyzenAdj indiriliyor ve derleniyor..."
 if [ ! -d RyzenAdj ]; then
     git clone https://github.com/FlyGoat/RyzenAdj
 fi
-run_cmd "cd RyzenAdj && cmake -B build -DCMAKE_BUILD_TYPE=Release && make -C build -j$(nproc)"
+cd RyzenAdj && cmake -B build -DCMAKE_BUILD_TYPE=Release && make -C build -j$(nproc)
 run_cmd "cp build/ryzenadj /usr/local/bin/"
-run_cmd "cd .."
+cd ..
 
 echo "⚙️ MangoHud indiriliyor ve kuruluyor..."
 if [ ! -d MangoHud ]; then
