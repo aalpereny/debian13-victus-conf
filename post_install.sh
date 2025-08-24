@@ -29,6 +29,7 @@ run_cmd() {
         echo "Çıkılıyor..."
         exit $status
     fi
+    sleep 1
 }
 
 if [ -f "$FLAG_FILE" ]; then
@@ -51,20 +52,21 @@ run_cmd "cd ryzen_smu && make dkms-install && cd .."
 if [ ! -f /etc/modules-load.d/ryzen_smu.conf ]; then
     echo -e '# Load ryzen_smu driver upon startup\nryzen_smu' | doas tee /etc/modules-load.d/ryzen_smu.conf >/dev/null
 fi
+sleep 1
 
 echo "⚙️ RyzenAdj indiriliyor ve derleniyor..."
 if [ ! -d RyzenAdj ]; then
     run_cmd "git clone https://github.com/FlyGoat/RyzenAdj"
 fi
 run_cmd "cd RyzenAdj && cmake -B build -DCMAKE_BUILD_TYPE=Release && make -C build -j$(nproc)"
-run_cmd "doas cp build/ryzenadj /usr/local/bin/"
+run_cmd "cp build/ryzenadj /usr/local/bin/"
 run_cmd "cd .."
 
 echo "⚙️ MangoHud indiriliyor ve kuruluyor..."
 if [ ! -d MangoHud ]; then
     run_cmd "git clone --recurse-submodules https://github.com/flightlessmango/MangoHud.git"
 fi
-run_cmd "cd MangoHud && ./build.sh build && doas ./build.sh install && cd .."
+run_cmd "cd MangoHud && ./build.sh build && ./build.sh install && cd .."
 
 echo "✅ RyzenAdj için systemd servisi oluşturuluyor..."
 if [ ! -f /etc/systemd/system/ryzenadj.service ]; then
@@ -83,6 +85,7 @@ WantedBy=multi-user.target
 EOF"
     doas systemctl enable ryzenadj.service
 fi
+sleep 1
 
 clear
 echo -e "🟢 Kurulum tamamlandı!"
