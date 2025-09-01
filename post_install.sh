@@ -37,8 +37,8 @@ if [ -f "$FLAG_FILE" ]; then
     exit 0
 fi
 
-echo "📦 Derleme için gerekli paketler kuruluyor..."
-run_cmd "apt install -y dkms git build-essential cmake libpci-dev linux-headers-$(uname -r)"
+echo "📦 Derleme için gerekli paketler ve KDE Masaüstü Ortamı kuruluyor..."
+run_cmd "apt install -y dkms git build-essential cmake libpci-dev linux-headers-$(uname -r) kde-plasma-desktop plasma-nm sddm-theme-breeze kwin-addons"
 
 echo "🎮 NVIDIA sürücüleri kuruluyor..."
 run_cmd "apt install -y nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree"
