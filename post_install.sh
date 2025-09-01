@@ -37,11 +37,11 @@ if [ -f "$FLAG_FILE" ]; then
     exit 0
 fi
 
-echo "📦 Derleme için gerekli paketler ve KDE Masaüstü Ortamı kuruluyor..."
-run_cmd "apt install -y dkms git build-essential cmake libpci-dev linux-headers-$(uname -r) kde-plasma-desktop plasma-nm sddm-theme-breeze kwin-addons"
+#echo "📦 Derleme için gerekli paketler ve KDE Masaüstü Ortamı kuruluyor..."
+#run_cmd "apt install -y dkms git build-essential cmake libpci-dev linux-headers-$(uname -r) kde-plasma-desktop plasma-nm sddm-theme-breeze kwin-addons"
 
-echo "🎮 NVIDIA sürücüleri kuruluyor..."
-run_cmd "apt install -y nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree"
+#echo "🎮 NVIDIA sürücüleri kuruluyor..."
+#run_cmd "apt install -y nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree"
 
 echo "⚙️ ryzen_smu indiriliyor ve kuruluyor..."
 if [ ! -d ryzen_smu ]; then
