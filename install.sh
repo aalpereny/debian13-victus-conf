@@ -28,8 +28,8 @@ su -c "
     apt upgrade -y
     sleep 1
 
-    echo '📦 doas kuruluyor...'
-    dpkg -s doas &>/dev/null || apt install -y doas
+    echo '📦 Doas, KDE Masaüstü Ortamı ve NVIDIA sürücüleri kuruluyor...'
+    apt install -y doas dkms git build-essential cmake libpci-dev linux-headers-$(uname -r) kde-plasma-desktop plasma-nm sddm-theme-breeze kwin-addons nvidia-kernel-dkms nvidia-driver firmware-misc-nonfree
     sleep 1
 
     echo '🛠️ /etc/doas.conf yapılandırması yapılıyor...'
