@@ -1,22 +1,12 @@
 # Debian 13 Victus 16 S1002-NT
-
-<img width="128" height="128" alt="image" src="https://github.com/user-attachments/assets/010a91df-2c44-443f-9829-3fb4ab3d831a" />
-
-> HP Victus 16 için Debian 13 kurulumu ile gerekli ayarlamalar
-
-Debian 13 sürümüyle beraber, Victus 16 S1002-NT model dizüstü bilgisayarda çalışmayan sürücü kalmamıştır. Bu rehber kapalı kaynak Nvidia ekran kartı sürücülerinin kurulumunu, AMD işlemciye 25W ve 70°C sınırı getirilmesini, Steam, Gamemode, Mangohud gibi oyun araçlarının ve günlük hayatta kullanılan pek çok paketin kurulumunu içermektedir.
-
 ---
 
 ## ✨ Özellikler
 
-Projenizin öne çıkan özelliklerini listeleyin.
-
-* 🚀 **Özellik 1:** Hızlı ve performanslı çalışır.
-* 🎨 **Özellik 2:** Kolayca özelleştirilebilir arayüz.
-* 🔒 **Özellik 3:** Güvenli veri depolama sağlar.
-* ...
-
+* 🔒 **Sudo Alternatifi:** Doas kurulumu ve yapılandırması.
+* ⚙️ **Nvidia Sürücüleri:** Kapalı kaynak Nvidia Sürücülerinin kurulumu(550.163.01).
+* 🌡️ **İşlemciye Güç ve Sıcaklık Limiti:** AMD Ryzen 7 8845HS işlemciye 28W ve 70°C limit koyma işlemi.
+* 🎮 **Oyun araçlarının kurulumu:** Steam, Gamemode, Mangohud vb. paketlerin kurulumu. 
 ---
 
 ## 🛠️ Kurulum
