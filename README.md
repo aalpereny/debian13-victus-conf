@@ -67,7 +67,7 @@
 	sudo apt install dkms git build-essential linux-headers-$(uname -r)
 	git clone https://github.com/amkillam/ryzen_smu.git
 	cd ryzen_smu
-	make dkms-install
+	sudo make dkms-install
 	echo -e '# Load ryzen_smu driver upon startup\nryzen_smu' | doas tee /etc/modules-load.d/		ryzen_smu.conf
 	```
 3. RyzenAdj paketini kurun:
@@ -77,7 +77,7 @@
 	cd RyzenAdj
 	cmake -B build -DCMAKE_BUILD_TYPE=Release
 	make -C build -j$(nproc)
-	cp build/ryzenadj /usr/local/bin/
+	sudo cp build/ryzenadj /usr/local/bin/
 	```
 	3a. RyzenAdj servisi oluşturun:
 	* 🔑/etc/systemd/system/ryzenadj.service dosyası oluşturun ve içerisine aşağıdaki satırları yazıp kaydedin:
