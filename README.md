@@ -2,7 +2,7 @@
 
 <img width="128" height="128" alt="image" src="https://github.com/user-attachments/assets/010a91df-2c44-443f-9829-3fb4ab3d831a" />
 
-> Projeniz için kısa, akılda kalıcı ve etkileyici bir slogan veya tek cümlelik açıklama.
+> HP Victus 16 için Debian 13 kurulumu ile gerekli ayarlamalar
 
 Bu bölüm, projenizin ne yaptığını, hangi problemi çözdüğünü ve neden önemli olduğunu anlatan daha detaylı bir paragraftır. Hedef kitlenizin kim olduğunu ve projenizin onlar için neden faydalı olduğunu belirtin.
 
