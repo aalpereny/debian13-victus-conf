@@ -85,10 +85,12 @@
 	[Unit]
 	Description=Set Ryzen power limits using RyzenAdj
 	After=multi-user.target
+ 
 	[Service]
 	Type=oneshot
 	ExecStart=/usr/local/bin/ryzenadj --stapm-limit=25000 --fast-limit=25000 --slow-limit=25000 --tctl-	temp=70
 	RemainAfterExit=true
+ 
 	[Install]
 	WantedBy=multi-user.target
 	```
