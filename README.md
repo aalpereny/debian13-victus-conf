@@ -1,6 +1,6 @@
 # Debian 13 Victus 16 S1002-NT
 
-(<img width="433" height="433" alt="image" src="https://github.com/user-attachments/assets/010a91df-2c44-443f-9829-3fb4ab3d831a" />)
+<img width="128" height="128" alt="image" src="https://github.com/user-attachments/assets/010a91df-2c44-443f-9829-3fb4ab3d831a" />
 
 > Projeniz için kısa, akılda kalıcı ve etkileyici bir slogan veya tek cümlelik açıklama.
 
