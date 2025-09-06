@@ -11,9 +11,7 @@
 
 ## 🛠️ Kurulum
 
-Projenizi yerel bir makinede kurmak için gerekli adımları adım adım anlatın.
-
-**Ön Gereksinimler:**
+**I)Ön Gereksinimler:**
 * [Node.js](https://nodejs.org/) (v18+)
 * [Python](https://www.python.org/) (v3.10+)
 * ...
