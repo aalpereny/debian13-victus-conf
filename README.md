@@ -1,4 +1,4 @@
-# Proje Adı
+# Debian 13 Victus 16 S1002-NT
 
 ![Proje Logosu veya Ekran Görüntüsü](https-link-buraya-gelecek.png)
 
