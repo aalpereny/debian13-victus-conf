@@ -4,15 +4,7 @@
 
 > HP Victus 16 için Debian 13 kurulumu ile gerekli ayarlamalar
 
-Debian 13 sürümüyle beraber, Victus 16 S1002-NT model dizüstü bilgisayarda çalışmayan sürücü kalmamıştır. Bu rehber
-
-   Kapalı kaynak Nvidia ekran kartı sürücülerinin kurulumunu,
-   AMD işlemciye 25W ve 70°C sınırı getirilmesini,
-   Steam, Gamemode, Mangohud gibi oyun araçlarının kurulumunu,
-   Günlük hayatta kullanılan pek çok paketin kurulumunu
-
-içermektedir.
-Bu bölüm, projenizin ne yaptığını, hangi problemi çözdüğünü ve neden önemli olduğunu anlatan daha detaylı bir paragraftır. Hedef kitlenizin kim olduğunu ve projenizin onlar için neden faydalı olduğunu belirtin.
+Debian 13 sürümüyle beraber, Victus 16 S1002-NT model dizüstü bilgisayarda çalışmayan sürücü kalmamıştır. Bu rehber kapalı kaynak Nvidia ekran kartı sürücülerinin kurulumunu, AMD işlemciye 25W ve 70°C sınırı getirilmesini, Steam, Gamemode, Mangohud gibi oyun araçlarının ve günlük hayatta kullanılan pek çok paketin kurulumunu içermektedir.
 
 ---
 
