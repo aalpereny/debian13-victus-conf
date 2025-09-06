@@ -88,7 +88,7 @@
  
 	[Service]
 	Type=oneshot
-	ExecStart=/usr/local/bin/ryzenadj --stapm-limit=25000 --fast-limit=25000 --slow-limit=25000 --tctl-	temp=70
+	ExecStart=/usr/local/bin/ryzenadj --stapm-limit=25000 --fast-limit=25000 --slow-limit=25000 --tctl-temp=70
 	RemainAfterExit=true
  
 	[Install]
