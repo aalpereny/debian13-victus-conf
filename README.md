@@ -14,6 +14,7 @@
 ## 🛠️ Kurulum
 
 ⚠️BU REHBERİN DEBİAN 13 TEMEL SİSTEMİ VE MASAÜSTÜ ORTAMI KURULDUKTAN SONRA UYGULANMASI DAHA UYGUN OLACAKTIR!⚠️
+
 **Ön Gereksinimler:**
 * Kurulumu tamamlanmış ve masaüstü ortamına ulaşılmış Debian 13 kurulumu
 * Sudo veya Root kullanıcısı (Eğer adım numaralandırmasının başında 🔑 işareti varsa bu komutun root izinleri ile çalıştırılması gerektiğini gösterir.)
