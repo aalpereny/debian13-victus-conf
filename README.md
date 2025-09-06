@@ -83,8 +83,8 @@
 	* 🔑/etc/systemd/system/ryzenadj.service dosyası oluşturun ve içerisine aşağıdaki satırları yazıp kaydedin:
 	```sh
 	    [Unit]
-	Description=Set Ryzen power limits using RyzenAdj
-	After=multi-user.target
+		Description=Set Ryzen power limits using RyzenAdj
+		After=multi-user.target
 
 		[Service]
 		Type=oneshot
