@@ -16,7 +16,7 @@
 * Kurulumu tamamlanmış ve masaüstü ortamına ulaşılmış Debian 13 kurulumu
 
 **Adımlar:**
-    # APT yapılandırması
+    ### APT yapılandırması
 1.  Repoyu klonlayın:
     ```sh
     git clone [https://github.com/kullanici-adiniz/proje-adiniz.git](https://github.com/kullanici-adiniz/proje-adiniz.git)
