@@ -11,10 +11,8 @@
 
 ## 🛠️ Kurulum
 
-**I)Ön Gereksinimler:**
-* [Node.js](https://nodejs.org/) (v18+)
-* [Python](https://www.python.org/) (v3.10+)
-* ...
+**Ön Gereksinimler:**
+⚠️BU REHBERİN DEBİAN 13 TEMEL SİSTEMİ VE MASAÜSTÜ ORTAMI KURULDUKTAN SONRA UYGULANMASI DAHA UYGUN OLACAKTIR!⚠️
 
 **Adımlar:**
 1.  Repoyu klonlayın:
