@@ -6,8 +6,8 @@
 
  - 🌐 **Apt Yapılandırması:** Paket yöneticisinde kapalı kaynak ve 32-bit paket listesinin aktif edilmesi.
  - 🔒 **Sudo Alternatifi:** Doas kurulumu ve yapılandırması.
- - ⚙️ **Nvidia Sürücüleri:** Kapalı kaynak Nvidia Sürücülerinin kurulumu(550.163.01).
- - 🌡️ **İşlemciye Güç ve Sıcaklık Limiti:** AMD Ryzen 7 8845HS işlemciye 28W ve 70°C limit koyma işlemi.
+ - ⚙️ **Nvidia Sürücüleri:** Kapalı kaynak NVIDIA sürücülerinin (v550.163.01) kurulumu.
+ - 🌡️ **İşlemciye Güç ve Sıcaklık Limiti:** AMD Ryzen 7 8845HS işlemciye güç ve sıcaklık (25W, 70°C) limiti getirilmesi.
  - 🎮 **Oyun araçlarının kurulumu:** Steam, Gamemode, Mangohud vb. paketlerin kurulumu. 
 ---
 
