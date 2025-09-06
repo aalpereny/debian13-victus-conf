@@ -1,6 +1,6 @@
 # Debian 13 Victus 16 S1002-NT
 
-![Proje Logosu veya Ekran Görüntüsü](https-link-buraya-gelecek.png)
+(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.omen.com%2Fcontent%2Fdam%2Fsites%2Fomen%2Fworldwide%2Fhomepage%2Flogo_victus.png&f=1&nofb=1&ipt=954ecc3337a1c66adf1275c4dd38fb0e2bcf6ad8c9ee725b9a3c39ecf933b8e8)
 
 > Projeniz için kısa, akılda kalıcı ve etkileyici bir slogan veya tek cümlelik açıklama.
 
